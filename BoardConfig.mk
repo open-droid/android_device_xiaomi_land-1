@@ -24,15 +24,24 @@ TARGET_BOOTLOADER_BOARD_NAME := msm8937
 TARGET_NO_BOOTLOADER := true
 
 # Kernel
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom msm_rtb.filter=0x237 ehci-hcd.park=3 lpm_levels.sleep_disabled=1 androidboot.bootdevice=7824900.sdhci earlycon=msm_hsl_uart,0x78B0000 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 androidboot.selinux=permissive
 BOARD_KERNEL_BASE := 0x80000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_TAGS_OFFSET := 0x00000100
 BOARD_RAMDISK_OFFSET := 0x01000000
-TARGET_PREBUILT_KERNEL := $(LOCAL_PATH)/Image.gz-dtb
+
+BOARD_KERNEL_IMAGE_NAME := Image.gz-dtb
+TARGET_KERNEL_APPEND_DTB := true
+TARGET_KERNEL_ARCH := arm64
+TARGET_KERNEL_HEADER_ARCH := arm64
+TARGET_KERNEL_SOURCE := kernel/xiaomi/msm8937
+TARGET_KERNEL_CONFIG := lineageos_land_defconfig
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := aarch64-linux-android-
 
 # Init
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc/
+TARGET_CRYPTFS_HW_PATH := vendor/qcom/opensource/cryptfs_hw
+override TARGET_OUT_VENDOR_SHARED_LIBRARIES = $(TARGET_OUT_SHARED_LIBRARIES)
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 131072
@@ -41,7 +50,7 @@ BOARD_CACHEIMAGE_PARTITION_SIZE := 268435456
 BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 67108864
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 3221225472
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 26301931008
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 10791377920
 
 # File systems
 BOARD_HAS_LARGE_FILESYSTEM := true
@@ -63,6 +72,9 @@ TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
 TW_EXTRA_LANGUAGES := true
 TW_INCLUDE_NTFS_3G := true
 TW_DEFAULT_EXTERNAL_STORAGE := true
+TARGET_KEYMASTER_WAIT_FOR_QSEE := true
+TW_INPUT_BLACKLIST := "hbtp_vm"
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/soc/78db000.usb/msm_hsusb/gadget/lun0/file
 
 # Debug flags
 
